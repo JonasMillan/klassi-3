@@ -44,7 +44,10 @@ const postLogin = async (req, res) => {
     if(user.length > 0){
         if(user[0].password === password){
             res.status(200).json({
-                result: user[0]._id
+                result: {
+                    _id : user[0]._id,
+                    rol : user[0].rol
+                }
             })
         }
     }else{
