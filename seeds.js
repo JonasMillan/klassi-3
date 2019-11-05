@@ -1,7 +1,9 @@
 const Zona = require('./models/zona')
 const Materia = require('./models/materias')
 const Escolaridad = require('./models/escolaridad')
-const Profesor = require('./models/profesor')
+// const Profesor = require('./models/profesor')
+const User = require('./models/user')
+
 
 const seeds = async () => {
     const escolaridades = await Escolaridad.find() 
@@ -55,59 +57,83 @@ const seeds = async () => {
             QuimicaUniversitario,
         ]
         
-        const pancaracio = new Profesor({
+        const pancaracio = new User({
+            rol: 'Profesor',
             nombre: 'Pancracio',
             apellido: 'Pancrastico',
-            email: 'MachoAlfa@gmail.com',
+            email: 'machoalfa@gmail.com',
+            password: '123',
             descripcion: 'esto es una descripcion bastante descriptiva...',
+            premiun: false,
             clases: [],
             zonas: [Belgrano._id],
-            materias: [MatematicaPrimaria._id, FisicaPrimaria._id, LiteraturaPrimaria._id, QuimicaPrimaria._id]    
+            materias: [MatematicaPrimaria._id, FisicaPrimaria._id, LiteraturaPrimaria._id, QuimicaPrimaria._id],
+            horarios: []    
         })
-        const Mora = new Profesor({
+        const Mora = new User({
+            rol: 'Profesor',
             nombre: 'Mora',
             apellido: 'Profe',
-            email: 'Mora@gmail.com',
+            email: 'mora@gmail.com',
+            password: '123',
             descripcion: 'esto es una descripcion bastante descriptiva...',
+            premiun: false,
             clases: [],
             zonas: [Palermo._id],
-            materias: [MatematicaSecundario._id, FisicaSecundario._id, LiteraturaSecundario._id, QuimicaSecundario._id]    
+            materias: [MatematicaSecundario._id, FisicaSecundario._id, LiteraturaSecundario._id, QuimicaSecundario._id],
+            horarios: []     
         })
-        const Jonas = new Profesor({
+        const Jonas = new User({
+            rol: 'Profesor',
             nombre: 'Jonas',
             apellido: 'Profe',
-            email: 'Jonas@gmail.com',
+            email: 'jonas@gmail.com',
+            password: '123',
             descripcion: 'esto es una descripcion bastante descriptiva...',
+            premiun: false,
             clases: [],
             zonas: [Palermo._id],
-            materias: [MatematicaSecundario._id, FisicaSecundario._id, LiteraturaSecundario._id, QuimicaSecundario._id]    
+            materias: [MatematicaSecundario._id, FisicaSecundario._id, LiteraturaSecundario._id, QuimicaSecundario._id],
+            horarios: []     
         })
-        const Jor = new Profesor({
+        const Jor = new User({
+            rol: 'Profesor',
             nombre: 'Jor',
             apellido: 'Profe',
-            email: 'Jor@gmail.com',
+            email: 'jor@gmail.com',
+            password: '123',
             descripcion: 'esto es una descripcion bastante descriptiva...',
+            premiun: false,
             clases: [],
             zonas: [Palermo._id],
-            materias: [MatematicaSecundario._id, FisicaSecundario._id, LiteraturaSecundario._id, QuimicaSecundario._id]    
+            materias: [MatematicaSecundario._id, FisicaSecundario._id, LiteraturaSecundario._id, QuimicaSecundario._id],
+            horarios: []     
         })
-        const Santi = new Profesor({
+        const Santi = new User({
+            rol: 'Profesor',
             nombre: 'Santi',
             apellido: 'Pueihgyredon',
-            email: 'Pueihgyredon@gmail.com',
+            email: 'santi@gmail.com',
+            password: '123',
             descripcion: 'esto es una descripcion bastante descriptiva...',
+            premiun: false,
             clases: [],
             zonas: [Colegiales._id],
-            materias: [MatematicaTerciario._id, FisicaTerciario._id, LiteraturaTerciario._id, QuimicaTerciario._id]    
+            materias: [MatematicaTerciario._id, FisicaTerciario._id, LiteraturaTerciario._id, QuimicaTerciario._id],
+            horarios: []     
         })
-        const Lau = new Profesor({
+        const Lau = new User({
+            rol: 'Profesor',
             nombre: 'Lautaro',
             apellido: 'tebanque',
-            email: 'tebanco@gmail.com',
+            email: 'lautaro@gmail.com',
+            password: '123',
             descripcion: 'esto es una descripcion bastante descriptiva...',
+            premiun: false,
             clases: [],
             zonas: [Colegiales._id],
-            materias: [MatematicaUniversitario._id, FisicaUniversitario._id, LiteraturaUniversitario._id, QuimicaUniversitario._id]    
+            materias: [MatematicaUniversitario._id, FisicaUniversitario._id, LiteraturaUniversitario._id, QuimicaUniversitario._id],
+            horarios: []     
         })
 
         const profes = [pancaracio,Mora,Santi,Lau,Jonas,Jor]

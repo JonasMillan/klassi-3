@@ -7,15 +7,15 @@ const ClaseSchema = new Schema({
 
     alumno: {
         type: Schema.Types.ObjectId,
-        ref: 'Alumno'
+        ref: 'User'
     },
     profesor: {
         type: Schema.Types.ObjectId,
-        ref: 'Profesor'
+        ref: 'User'
     },
     materia: {
         type: Schema.Types.ObjectId,
-        ref: 'Materia' 
+        ref: 'Materias' 
     },
     zona: {
         type: Schema.Types.ObjectId,

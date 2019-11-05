@@ -40,7 +40,7 @@ const UserSchema = new Schema({
     }],
     horarios: [{
         type: Schema.Types.ObjectId,
-        ref: 'Horario' 
+        ref: 'Horarios' 
     }]
 });
 
