@@ -23,7 +23,7 @@ const postRegister = async (req, res) => {
         apellido,
         email,
         password,
-        descripcio,
+        descripcion,
         premiun,
         clases,
         zonas,
@@ -39,12 +39,12 @@ const postLogin = async (req, res) => {
     // destructuracion del body
     const { email, password } = req.body
     // busqueda de alumno
-    const User = await User.find({email})
+    const user = await User.find({email})
     // validacion
-    if(User.length > 0){
-        if(User[0].password === password){
+    if(user.length > 0){
+        if(user[0].password === password){
             res.status(200).json({
-                result: User[0]._id
+                result: user[0]._id
             })
         }
     }else{
