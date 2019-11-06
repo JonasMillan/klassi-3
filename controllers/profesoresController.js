@@ -42,17 +42,36 @@ const findPofesores = async (req, res) => {
         zonas: idZona
     })
     .populate('clases')
-    
-    const profeConClase = profesores.filter(e => e.clases.length > 0)
-    console.log('profeConClase : ', profeConClase);
+    //profesores.filter(e => e.clases.length > 0)
+    let profeConClase = []
+    let profes = []
+    profesores.forEach( (myProf) => {
+        console.log('myProf.clases.length ', myProf.clases.length)
+        if(myProf.clases.length > 0) {
+            profeConClase.push(myProf);
+        } else {
+            profes.push(myProf);
+        }
+    });
+    // console.log('profeConClase : ', profeConClase);
 
-    // const profes = []
-    let profeConClase2 = profeConClase.forEach( async (prof) => {
-        const idHorario = prof.clases.horario
-        const horario = await Horario(idHorario)
-        console.log(horario)
-    })
-    res.status(200).json({result: profesores})
+    
+    let valido = true;
+    profeConClase.forEach((prof) => {
+        valido = true;
+        prof.clases.forEach( async (myClase) => {
+            const horario = await Horario.findById(myClase.horario)
+            if(horario.fecha === fecha &&  horario.hora === hora) {
+                valido = false;
+            }
+        });
+        if(valido){
+            profes.push(prof);
+        }       
+    });
+
+    // console.log('profes ', profes)
+    res.status(200).json({result: profes})
 }
 
 module.exports = {
