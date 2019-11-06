@@ -42,19 +42,16 @@ const findPofesores = async (req, res) => {
         zonas: idZona
     })
     .populate('clases')
-    //profesores.filter(e => e.clases.length > 0)
+    
     let profeConClase = []
     let profes = []
     profesores.forEach( (myProf) => {
-        console.log('myProf.clases.length ', myProf.clases.length)
         if(myProf.clases.length > 0) {
             profeConClase.push(myProf);
         } else {
             profes.push(myProf);
         }
     });
-    // console.log('profeConClase : ', profeConClase);
-
     
     let valido = true;
     profeConClase.forEach((prof) => {
@@ -70,7 +67,6 @@ const findPofesores = async (req, res) => {
         }       
     });
 
-    // console.log('profes ', profes)
     res.status(200).json({result: profes})
 }
 
