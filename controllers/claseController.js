@@ -11,14 +11,12 @@ const UserAlumno = require('../models/user')
 
 const createClass = async (req, res) => {
     const { idProfesor, idAlumno, idMateria, idZona, fecha, hora} = req.body
-    console.log(req.body)
     /** AGREGADO */
     const profesor = await UserProfesor.findById(idProfesor)
     const alumno = await UserAlumno.findById(idAlumno)
 
     const materia = await Materia.findById(idMateria)
     const zona = await Zona.findById(idZona)
-    console.log(zona)
 
     // Hacer el post ?
     const horario = new Horario({
@@ -36,12 +34,14 @@ const createClass = async (req, res) => {
                         profesor: profesor._id,
                         materia: materia._id,
                         zona: zona._id,
-                        horario: horario._id
+                        horario: horario._id,
+                        notificada: false
                     })
                     
                     alumno.clases.push(clase._id)
                     profesor.clases.push(clase._id)
-                    
+                    profesor.notificar = true;
+
                     await horario.save()
                     await clase.save()
                     await alumno.save()
@@ -90,7 +90,22 @@ const findClassByUser = async (req, res) => {
     }
 }
 
+const claseAceptada = async (req, res) => {
+    const idClase = req.params.idClase
+    const clase = await Clase.findById(idClase)
+
+    if(clase){
+        clase.notificada = true;
+        await clase.save()
+        res.status(200).json({result: clase.notificada})
+    } else {
+        res.status(404).json({error: 'id de clase no encontrado'})
+    }
+
+}
+
 module.exports = {
     createClass,
-    findClassByUser
+    findClassByUser,
+    claseAceptada
 }

@@ -26,6 +26,9 @@ const UserSchema = new Schema({
     premiun: {
         type: Boolean
     },
+    notificar: {
+        type: Boolean
+    },
     clases: [{
         type: Schema.Types.ObjectId,
         ref: 'Clase' 

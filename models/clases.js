@@ -21,6 +21,9 @@ const ClaseSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Zona'
     },
+    notificada: {
+        type: Boolean
+    },
     horario: {
         type: Schema.Types.ObjectId,
         ref: 'Horario'

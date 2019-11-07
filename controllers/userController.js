@@ -11,6 +11,7 @@ const postRegister = async (req, res) => {
         password = undefined,
         descripcion= undefined,
         premiun = undefined,
+        notificar = undefined,
         clases = [],
         zonas =  [],
         materias = [],
@@ -25,6 +26,7 @@ const postRegister = async (req, res) => {
         password,
         descripcion,
         premiun,
+        notificar,
         clases,
         zonas,
         materias,
@@ -46,7 +48,8 @@ const postLogin = async (req, res) => {
             res.status(200).json({
                 result: {
                     _id : user[0]._id,
-                    rol : user[0].rol
+                    rol : user[0].rol,
+                    notificar: user[0].notificar
                 }
             })
         }

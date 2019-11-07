@@ -25,6 +25,7 @@ api.post("/profesores", profesoresController.findPofesores);
 // /* Clases ROUTES */
 api.post("/clase", claseController.createClass)
 api.get("/clases/:idUsuario", claseController.findClassByUser)
+api.get("/aceptarclase/:idClase", claseController.claseAceptada)
 
 // /* Clases utils */
 api.get("/utils/materias", utilsController.getMaterias)
