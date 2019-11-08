@@ -29,6 +29,7 @@ const UserSchema = new Schema({
     notificar: {
         type: Boolean
     },
+    horas: [],
     clases: [{
         type: Schema.Types.ObjectId,
         ref: 'Clase' 

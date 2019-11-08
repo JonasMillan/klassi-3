@@ -20,6 +20,7 @@ api.get("/alumnos/:id", alumnoController.findAlumno);
 api.get("/profesores/materias/:id", profesoresController.findProfesorByMateria);
 api.get("/profesores/:id", profesoresController.findProfesorById);
 api.post("/profesores", profesoresController.findPofesores);
+api.post("/profesor/addmateria", profesoresController.addMateria);
 
 
 // /* Clases ROUTES */

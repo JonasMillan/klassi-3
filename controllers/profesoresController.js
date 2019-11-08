@@ -1,5 +1,6 @@
 const Profesor2 =  require('../models/user')
 const Horario = require('../models/horario')
+const Materia = require('../models/materias')
 
 const findProfesorByMateria = async (req, res) => {
     // id de la ruta dinamica
@@ -70,8 +71,40 @@ const findPofesores = async (req, res) => {
     res.status(200).json({result: profes})
 }
 
+const addMateria = async (req, res) => {
+    const { idMateria, idProfesor } = req.body
+
+    const profesor = await Profesor2.findById(idProfesor)
+    const materia = await Materia.findById(idMateria)
+    let flag = true
+
+    if(profesor){
+        if(materia){
+            profesor.materias.forEach( async (myMateria) => {
+                if(idMateria == myMateria) {
+                    console.log('ENTRO')
+                    flag = false
+                }
+            })
+            if(flag){
+                profesor.materias.push(materia)
+                await profesor.save()
+                res.status(200).json({result: 'ok'})
+            } else {
+                res.status(404).json({error: 'La materia ya existe en la lista'})
+            }
+        }else {
+            res.status(404).json({error: 'No existen Materia para dicho id'})
+        }
+    } else {
+        res.status(404).json({error: 'No existen profesores para dicho id'})
+    }
+}
+
+
 module.exports = {
     findProfesorByMateria,
     findProfesorById,
-    findPofesores
+    findPofesores,
+    addMateria
 }
