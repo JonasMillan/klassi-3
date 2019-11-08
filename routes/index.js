@@ -21,7 +21,7 @@ api.get("/profesores/materias/:id", profesoresController.findProfesorByMateria);
 api.get("/profesores/:id", profesoresController.findProfesorById);
 api.post("/profesores", profesoresController.findPofesores);
 api.post("/profesor/addmateria", profesoresController.addMateria);
-
+api.post("/profesor/addhoras", profesoresController.addHoras);
 
 // /* Clases ROUTES */
 api.post("/clase", claseController.createClass)

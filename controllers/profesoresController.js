@@ -1,4 +1,4 @@
-const Profesor2 =  require('../models/user')
+const Profesor =  require('../models/user')
 const Horario = require('../models/horario')
 const Materia = require('../models/materias')
 
@@ -6,7 +6,7 @@ const findProfesorByMateria = async (req, res) => {
     // id de la ruta dinamica
     const id = req.params.id
     // encuentra a el profe y popula materias
-    const profes = await Profesor2.find().populate('materias')
+    const profes = await Profesor.find().populate('materias')
     const data = []
     // encuentra profe por materia haciendo un loop
     profes.forEach( profe => {
@@ -27,7 +27,7 @@ const findProfesorById = async (req, res) => {
     // id de la ruta dinamica
     const id = req.params.id
     // encuentra el profe por id y popula materias y zonas
-    const profe = await Profesor2.findById(id).populate('materias').populate('zonas')
+    const profe = await Profesor.findById(id).populate('materias').populate('zonas')
     if(profe){
         res.status(200).json({result: profe})
     }else{
@@ -37,7 +37,7 @@ const findProfesorById = async (req, res) => {
 
 const findPofesores = async (req, res) => {
     const {idZona, idMateria, fecha, hora} = req.body
-    const profesores = await Profesor2
+    const profesores = await Profesor
     .find({
         materias: idMateria,
         zonas: idZona
@@ -47,11 +47,15 @@ const findPofesores = async (req, res) => {
     let profeConClase = []
     let profes = []
     profesores.forEach( (myProf) => {
-        if(myProf.clases.length > 0) {
-            profeConClase.push(myProf);
-        } else {
-            profes.push(myProf);
-        }
+        myProf.horas.forEach( (myHora) => {
+            if(myHora == hora){
+                if(myProf.clases.length > 0) {
+                    profeConClase.push(myProf);
+                } else {
+                    profes.push(myProf);
+                } 
+            }
+        })
     });
     
     let valido = true;
@@ -74,7 +78,7 @@ const findPofesores = async (req, res) => {
 const addMateria = async (req, res) => {
     const { idMateria, idProfesor } = req.body
 
-    const profesor = await Profesor2.findById(idProfesor)
+    const profesor = await Profesor.findById(idProfesor)
     const materia = await Materia.findById(idMateria)
     let flag = true
 
@@ -82,7 +86,6 @@ const addMateria = async (req, res) => {
         if(materia){
             profesor.materias.forEach( async (myMateria) => {
                 if(idMateria == myMateria) {
-                    console.log('ENTRO')
                     flag = false
                 }
             })
@@ -101,10 +104,49 @@ const addMateria = async (req, res) => {
     }
 }
 
+const addHoras = async (req, res) => {
+    const { idProfesor, horas } = req.body
+    let flag = true;
+    const profesor = await Profesor.findById(idProfesor)
+    if(profesor){
+        horas.forEach( (hora) => {
+            flag = true;
+            profesor.horas.forEach( (myHora) => {
+                if(myHora == hora){
+                    flag = false;
+                }
+            })
+            if(flag){
+                profesor.horas.push(hora)
+            }
+        })
+        await profesor.save()
+        res.status(200).json({result: 'ok'})
+    } else {
+        res.status(404).json({error: 'No existen profesores para dicho id'})
+    }
+}
+
+async function profesorNotificar(idProfesor) {
+    const profesor = await Profesor.findById(idProfesor)
+    let flag = true;
+    profesor.clases.forEach( (clase) => {
+        if(!clase.notificada){
+            flag = false;
+        }
+    })
+
+    if(flag){
+        profesor.notificar = false;
+        await profesor.save();
+    }
+}
 
 module.exports = {
     findProfesorByMateria,
     findProfesorById,
     findPofesores,
-    addMateria
+    addMateria,
+    addHoras,
+    profesorNotificar
 }

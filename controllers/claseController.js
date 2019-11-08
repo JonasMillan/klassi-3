@@ -4,6 +4,8 @@ const Alumno = require('../models/alumno')
 const Materia = require('../models/materias')
 const Zona = require('../models/zona')
 const Horario = require('../models/horario')
+const profesoresController = require("../controllers/profesoresController");
+
 
 /** AGREGADO */
 const UserProfesor = require('../models/user')
@@ -95,14 +97,16 @@ const claseAceptada = async (req, res) => {
     const clase = await Clase.findById(idClase)
 
     if(clase){
+        profesoresController.profesorNotificar(clase.profesor)
         clase.notificada = true;
         await clase.save()
         res.status(200).json({result: clase.notificada})
     } else {
         res.status(404).json({error: 'id de clase no encontrado'})
     }
-
 }
+
+
 
 module.exports = {
     createClass,

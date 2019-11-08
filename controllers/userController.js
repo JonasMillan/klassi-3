@@ -11,7 +11,7 @@ const postRegister = async (req, res) => {
         password = undefined,
         descripcion= undefined,
         premiun = undefined,
-        notificar = undefined,
+        notificar = false,
         clases = [],
         zonas =  [],
         materias = [],
