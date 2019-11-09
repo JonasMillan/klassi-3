@@ -64,7 +64,7 @@ const createClass = async (req, res) => {
     }
 }
 
-const findClassByUser = async (req, res) => {
+const findNotifyClassByUser = async (req, res) => {
     const idUsuario = req.params.idUsuario
     // console.log('findClassByUser ', req.params)
     if(idUsuario){
@@ -73,14 +73,42 @@ const findClassByUser = async (req, res) => {
         const { clases } = user
 
         const finalClases = clases.map( async (clase) => {
-            const claseFinal = await Clase.findById(clase._id).populate('materia').populate('zona').populate('horario').populate('alumno')
+            if(!clase.notificada){
+                const claseFinal = await Clase.findById(clase._id).populate('materia').populate('zona').populate('horario').populate('alumno')
+                return {
+                    fecha: claseFinal.horario.fecha,
+                    hora: claseFinal.horario.hora,
+                    alumno: claseFinal.alumno.nombre,
+                    materia: claseFinal.materia.nombre,
+                    zona: claseFinal.zona.nombre
+                } 
+            }
+        })
+
+        const clasesProcesada = await Promise.all(finalClases)
+        
+        res.status(200).json({result: clasesProcesada})
+
+    }else {
+        res.status(404).json({error: 'id usuario no encontrado'})
+    }
+}
+
+const findClassByUser = async (req, res) => {
+    const idUsuario = req.params.idUsuario
+    if(idUsuario){
+        const user = await UserAlumno.findById(idUsuario).populate('clases')
+        const { clases } = user
+
+        const finalClases = clases.map( async (clase) => {
+            const claseFinal = await Clase.findById(clase._id).populate('materia').populate('zona').populate('horario')
             return {
                 fecha: claseFinal.horario.fecha,
                 hora: claseFinal.horario.hora,
-                alumno: claseFinal.alumno.nombre,
                 materia: claseFinal.materia.nombre,
                 zona: claseFinal.zona.nombre
             } 
+            
         })
 
         const clasesProcesada = await Promise.all(finalClases)
@@ -111,5 +139,6 @@ const claseAceptada = async (req, res) => {
 module.exports = {
     createClass,
     findClassByUser,
-    claseAceptada
+    claseAceptada,
+    findNotifyClassByUser
 }

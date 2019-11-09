@@ -25,8 +25,9 @@ api.post("/profesor/addhoras", profesoresController.addHoras);
 
 // /* Clases ROUTES */
 api.post("/clase", claseController.createClass)
-api.get("/clases/:idUsuario", claseController.findClassByUser)
+api.get("/clases/:idUsuario", claseController.findNotifyClassByUser)
 api.get("/aceptarclase/:idClase", claseController.claseAceptada)
+api.get("/misclases/:idUsuario", claseController.findClassByUser)
 
 // /* Clases utils */
 api.get("/utils/materias", utilsController.getMaterias)
