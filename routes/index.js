@@ -13,6 +13,7 @@ const userController = require("../controllers/userController")
 // /* Alumno ROUTES */
 api.post("/register", userController.postRegister);
 api.post("/login", userController.postLogin);
+api.get("/getClasesNotificadas/:id", alumnoController.getClasesNotificadas);
 // gets
 api.get("/alumnos/:id", alumnoController.findAlumno);
 
