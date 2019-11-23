@@ -38,10 +38,13 @@ const postRegister = async (req, res) => {
 }
 
 const postLogin = async (req, res) => {
+    console.log("req.body ", req.body)
     // destructuracion del body
     const { email, password } = req.body
+    console.log("body ", email)
     // busqueda de alumno
     const user = await User.find({email})
+    console.log("user ", user)
     // validacion
     if(user.length > 0){
         if(user[0].password === password){

@@ -142,11 +142,35 @@ async function profesorNotificar(idProfesor) {
     }
 }
 
+const addSimpleHora = async (req, res) => {
+    const { idProfesor, horas } = req.body
+    const hora = horas;
+    let flag = true;
+    const profesor = await Profesor.findById(idProfesor)
+    if(profesor){
+        flag = true;
+        profesor.horas.forEach( (myHora) => {
+            if(myHora == hora){
+                flag = false;
+            }
+        })
+        if(flag){
+            profesor.horas.push(hora)
+        }
+        
+        await profesor.save()
+        res.status(200).json({result: 'ok'})
+    } else {
+        res.status(404).json({error: 'No existen profesores para dicho id'})
+    }
+}
+
 module.exports = {
     findProfesorByMateria,
     findProfesorById,
     findPofesores,
     addMateria,
     addHoras,
-    profesorNotificar
+    profesorNotificar,
+    addSimpleHora
 }
