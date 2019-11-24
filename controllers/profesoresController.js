@@ -166,11 +166,11 @@ const addSimpleHora = async (req, res) => {
 }
 
 const removeHora = async (req, res) => {
-    const { idProfesor, hora } = req.body
+    const { idProfesor, horas } = req.body
     const profesor = await Profesor.findById(idProfesor)
     if(profesor){
-        const { horas } = profesor
-        const newHoras = horas.filter(e => e != hora)
+        const  horasProf  = profesor.horas
+        const newHoras = horasProf.filter(e => e != horas)
         profesor.horas = newHoras
         await profesor.save()
         res.status(200).json({result: 'ok'})
