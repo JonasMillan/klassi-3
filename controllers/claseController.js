@@ -77,6 +77,7 @@ const findNotifyClassByUser = async (req, res) => {
             if(!clase.notificada){
                 const claseFinal = await Clase.findById(clase._id).populate('materia').populate('zona').populate('horario').populate('alumno')
                 return {
+                    _id: clase._id,
                     fecha: claseFinal.horario.fecha,
                     hora: claseFinal.horario.hora,
                     alumno: claseFinal.alumno.nombre,
