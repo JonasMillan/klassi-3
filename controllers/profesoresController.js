@@ -165,12 +165,27 @@ const addSimpleHora = async (req, res) => {
     }
 }
 
+const removeHora = async (req, res) => {
+    const { idProfesor, hora } = req.body
+    const profesor = await Profesor.findById(idProfesor)
+    if(profesor){
+        const { horas } = profesor
+        const newHoras = horas.filter(e => e != hora)
+        profesor.horas = newHoras
+        await profesor.save()
+        res.status(200).json({result: 'ok'})
+    } else {
+        res.status(404).json({error: 'No existen profesores para dicho id'})
+    }
+}
+
 module.exports = {
     findProfesorByMateria,
     findProfesorById,
     findPofesores,
     addMateria,
     addHoras,
+    removeHora,
     profesorNotificar,
     addSimpleHora
 }
