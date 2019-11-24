@@ -1,6 +1,6 @@
 const Clase = require('../models/clases')
-const Profesor = require('../models/profesor')
-const Alumno = require('../models/alumno')
+// const Profesor = require('../models/profesor')
+// const Alumno = require('../models/alumno')
 const Materia = require('../models/materias')
 const Zona = require('../models/zona')
 const Horario = require('../models/horario')
@@ -10,6 +10,7 @@ const profesoresController = require("../controllers/profesoresController");
 /** AGREGADO */
 const UserProfesor = require('../models/user')
 const UserAlumno = require('../models/user')
+const User = require('../models/user')
 
 const createClass = async (req, res) => {
     const { idProfesor, idAlumno, idMateria, idZona, fecha, hora} = req.body
@@ -134,9 +135,43 @@ const claseAceptada = async (req, res) => {
     }
 }
 
+const removeClass = async (req, res) => {
+    const { idClase } = req.body
+    let clases = await Clase.find()
+    const clase = clases.find(e => e._id.toString() === idClase)
 
+    if(clase){
+        
+        const profe = await User.findById(clase.profesor)
+        const alumno = await User.findById(clase.alumno)
+
+        profClases = profe.clases.filter(e => e != idClase)
+        alumClases = alumno.clases.filter(e => e != idClase)
+        clases = clases.filter(e => e._id.toString() != idClase)
+
+        profe.clases = profClases
+        alumno.clases = alumClases 
+        
+        await profe.save()
+        await alumno.save()
+        await clases.save()
+        
+        res.status(200).json({result: {clases, alumno,profe}})
+
+    }else{
+        res.status(200).json({error: 'id de clase no encontrado'})
+    }
+    // const claseAll = await Clase.find()
+
+    // const claseData = await User.find()
+    // console.log(clase
+    // res.status(200).json({result: claseAll})
+    // res.status(200).json({result: clase})
+
+}
 
 module.exports = {
+    removeClass,
     createClass,
     findClassByUser,
     claseAceptada,

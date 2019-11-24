@@ -14,7 +14,6 @@ const userController = require("../controllers/userController")
 api.post("/register", userController.postRegister);
 api.post("/login", userController.postLogin);
 api.get("/getClasesNotificadas/:id", alumnoController.getClasesNotificadas);
-// gets
 api.get("/alumnos/:id", alumnoController.findAlumno);
 
 // /* Profesores ROUTES */
@@ -28,6 +27,7 @@ api.post("/profesor/removeHora", profesoresController.removeHora);
 
 // /* Clases ROUTES */
 api.post("/clase", claseController.createClass)
+api.post("/removeClase", claseController.removeClass)
 api.get("/clases/:idUsuario", claseController.findNotifyClassByUser)
 api.get("/aceptarclase/:idClase", claseController.claseAceptada)
 api.get("/misclases/:idUsuario", claseController.findClassByUser)
