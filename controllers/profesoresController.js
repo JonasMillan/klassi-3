@@ -157,9 +157,13 @@ const addSimpleHora = async (req, res) => {
         if(flag){
             profesor.horas.push(hora)
         }
-        
+
         await profesor.save()
-        res.status(200).json({result: 'ok'})
+        res.status(200).json({
+            result: {
+            horas : profesor.horas
+            }
+        })
     } else {
         res.status(404).json({error: 'No existen profesores para dicho id'})
     }
@@ -173,7 +177,11 @@ const removeHora = async (req, res) => {
         const newHoras = horasProf.filter(e => e != horas)
         profesor.horas = newHoras
         await profesor.save()
-        res.status(200).json({result: 'ok'})
+        res.status(200).json({
+            result: {
+                horas : profesor.horas
+            }
+        })
     } else {
         res.status(404).json({error: 'No existen profesores para dicho id'})
     }

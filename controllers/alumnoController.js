@@ -24,11 +24,12 @@ const getClasesNotificadas = async (req, res) => {
         const { clases } = user
         const finalClases = clases.map( async (clase) => {
             if(clase.notificada){
-                const claseFinal = await Clase.findById(clase._id).populate('zona').populate('horario').populate('profesor')
+                const claseFinal = await Clase.findById(clase._id).populate('zona').populate('horario').populate('profesor').populate('alumno')
                 return {
                     fecha: claseFinal.horario.fecha,
                     hora: claseFinal.horario.hora,
                     profesor: claseFinal.profesor.nombre,
+                    alumno: claseFinal.alumno.nombre,
                     zona: claseFinal.zona.nombre
                 } 
             }
