@@ -1,6 +1,7 @@
 const Profesor =  require('../models/user')
 const Horario = require('../models/horario')
 const Materia = require('../models/materias')
+const Escolaridad = require('../models/escolaridad')
 
 const findProfesorByMateria = async (req, res) => {
     // id de la ruta dinamica
@@ -187,7 +188,34 @@ const removeHora = async (req, res) => {
     }
 }
 
+const generarMateriaProfesor = async (req, res) => {
+
+    const {idProfesor, materia, escolaridad} = req.body
+    const materias = await Materia.find().populate('escolaridad')
+    const profesor = await Profesor.findById(idProfesor)
+    const materiaFound = materias.find(e => e.nombre === materia && e.escolaridad.nivel === escolaridad)
+
+    if(materiaFound){
+        const materiaProfesorFound = profesor.materias.find(e => e._id === materiaFound._id)
+        if(materiaProfesorFound){
+            res.status(200).json({result: 'ok'})
+        }else{
+            profesor.materias.push(materiaFound._id)
+            await profesor.save()
+            res.status(200).json({result: 'ok'})
+        }
+    }else{
+        const escolaridadFound = await Escolaridad.find({nivel: escolaridad})
+        const newMateria = new Materia({nombre: materia, escolaridad: escolaridadFound._id})
+        profesor.materias.push(newMateria._id)
+        await profesor.save()
+        await newMateria.save()
+        res.status(200).json({result: 'ok'})
+    }
+}
+
 module.exports = {
+    generarMateriaProfesor,
     findProfesorByMateria,
     findProfesorById,
     findPofesores,
