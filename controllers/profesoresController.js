@@ -199,13 +199,18 @@ const generarMateriaProfesor = async (req, res) => {
     if(materiaFound){
         const materiaProfesorFound = profesor.materias.find(e => e._id === materiaFound._id)
         if(materiaProfesorFound){
-            res.status(200).json({result: 'ok'})
+            let mostrarMaterias = profesor.materias.map(async(e) => await Materia.findById(e))
+            mostrarMaterias = await Promise.all(mostrarMaterias)
+            res.status(200).json({result: mostrarMaterias})
         }else{
             profesor.materias.push(materiaFound._id)
             await profesor.save()
-            res.status(200).json({result: 'ok'})
+            let mostrarMaterias = profesor.materias.map(async(e) => await Materia.findById(e))
+            mostrarMaterias = await Promise.all(mostrarMaterias)
+            res.status(200).json({result: mostrarMaterias})
         }
     }else{
+
         const newMateria = new Materia({
             nombre: materia, 
             escolaridad: escolaridadFound[0]._id
@@ -214,8 +219,9 @@ const generarMateriaProfesor = async (req, res) => {
 
         await newMateria.save()
         await profesor.save()
-
-        res.status(200).json({result: 'ok'})
+        let mostrarMaterias = profesor.materias.map(async(e) => await Materia.findById(e))
+        mostrarMaterias = await Promise.all(mostrarMaterias)
+        res.status(200).json({result: mostrarMaterias})
     }
 }
 
