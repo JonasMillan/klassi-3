@@ -193,6 +193,7 @@ const generarMateriaProfesor = async (req, res) => {
     const {idProfesor, materia, escolaridad} = req.body
     const materias = await Materia.find().populate('escolaridad')
     const profesor = await Profesor.findById(idProfesor)
+    const escolaridadFound = await Escolaridad.find({nivel: escolaridad})
     const materiaFound = materias.find(e => e.nombre === materia && e.escolaridad.nivel === escolaridad)
 
     if(materiaFound){
@@ -205,11 +206,15 @@ const generarMateriaProfesor = async (req, res) => {
             res.status(200).json({result: 'ok'})
         }
     }else{
-        const escolaridadFound = await Escolaridad.find({nivel: escolaridad})
-        const newMateria = new Materia({nombre: materia, escolaridad: escolaridadFound._id})
+        const newMateria = new Materia({
+            nombre: materia, 
+            escolaridad: escolaridadFound[0]._id
+        })
         profesor.materias.push(newMateria._id)
-        await profesor.save()
+
         await newMateria.save()
+        await profesor.save()
+
         res.status(200).json({result: 'ok'})
     }
 }
