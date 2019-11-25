@@ -214,7 +214,27 @@ const generarMateriaProfesor = async (req, res) => {
     }
 }
 
+const formatProfesor = async (req, res) => {
+    const { id } = req.params
+
+    const profe = await Profesor.findById(id).populate('materias').populate('zonas')
+    let materias = profe.materias.map(async (e) => {
+        const escolaridad = await Escolaridad.findById(e.escolaridad)
+        return{
+            nombre: e.nombre,
+            escolaridad: escolaridad.nivel
+        }
+    })
+    materias = await Promise.all(materias)
+    const zonas = profe.zonas.map(e =>({nombre:e.nombre}))
+    res.status(200).json({result: {
+        materias,
+        zonas
+    }})
+}
+
 module.exports = {
+    formatProfesor,
     generarMateriaProfesor,
     findProfesorByMateria,
     findProfesorById,
