@@ -2,6 +2,8 @@ const Profesor =  require('../models/user')
 const Horario = require('../models/horario')
 const Materia = require('../models/materias')
 const Escolaridad = require('../models/escolaridad')
+const Zona = require('../models/zona')
+
 
 const findProfesorByMateria = async (req, res) => {
     // id de la ruta dinamica
@@ -72,8 +74,8 @@ const findPofesores = async (req, res) => {
             profes.push(prof);
         }       
     });
-
-    res.status(200).json({result: profes})
+    const result = profes.sort((e) => (e.premiun)?-1:1)
+    res.status(200).json({result})
 }
 
 const addMateria = async (req, res) => {
@@ -244,7 +246,40 @@ const formatProfesor = async (req, res) => {
     }})
 }
 
+const goPremiun = async (req, res) => {
+    const { id } = req.params
+    const profe = await Profesor.findById(id)
+    profe.premiun = true
+    await profe.save()
+    res.status(200).json({ result: profe })
+}
+
+const addZona = async (req, res) => {
+    const {zona, idProfesor} = req.body
+    const zonaFound = await Zona.find({nombre:zona})
+    const profe = await Profesor.findById(idProfesor)
+
+    if(zonaFound.length > 0){
+        const zonaProfe = profe.zonas.find(e => e.nombre === zonaFound[0].nombre)
+        if(zonaProfe){
+            res.status(200).json({result:'profesor con zona ya asignada'})
+        }else{
+            profe.zonas.push(zonaFound[0])
+            await profe.save()
+            res.status(200).json({result:profe})
+        }
+    }else{
+        const newZona = new Zona({nombre:zona})
+        profe.zonas.push(newZona)
+        await profe.save()
+        await newZona.save()
+        res.status(200).json({result:profe})
+    }
+}
+
 module.exports = {
+    addZona,
+    goPremiun,
     formatProfesor,
     generarMateriaProfesor,
     findProfesorByMateria,

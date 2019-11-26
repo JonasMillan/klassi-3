@@ -25,6 +25,9 @@ api.post("/profesor/addmateria", profesoresController.addMateria);
 api.post("/profesor/addhoras", profesoresController.addSimpleHora);
 api.post("/profesor/removeHora", profesoresController.removeHora);
 api.post("/profesor/generarMateria", profesoresController.generarMateriaProfesor);
+api.post("/profesor/goPremiun", profesoresController.goPremiun);
+api.post("/profesor/addZona", profesoresController.addZona);
+
 
 // /* Clases ROUTES */
 api.post("/clase", claseController.createClass)
