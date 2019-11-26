@@ -34,7 +34,8 @@ const getClasesNotificadas = async (req, res) => {
                 } 
             }
         })
-        const clasesProcesada = await Promise.all(finalClases)
+        let clasesProcesada = await Promise.all(finalClases)
+        clasesProcesada = clasesProcesada.filter( e => e != null);
         res.status(200).json({result: clasesProcesada})
     } else {
         res.status(404).json({error: 'id usuario no encontrado'})

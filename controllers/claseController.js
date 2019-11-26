@@ -1,11 +1,8 @@
 const Clase = require('../models/clases')
-// const Profesor = require('../models/profesor')
-// const Alumno = require('../models/alumno')
 const Materia = require('../models/materias')
 const Zona = require('../models/zona')
 const Horario = require('../models/horario')
 const profesoresController = require("../controllers/profesoresController");
-
 
 /** AGREGADO */
 const UserProfesor = require('../models/user')
@@ -67,7 +64,6 @@ const createClass = async (req, res) => {
 
 const findNotifyClassByUser = async (req, res) => {
     const idUsuario = req.params.idUsuario
-    // console.log('findClassByUser ', req.params)
     if(idUsuario){
         /** AGREGADO */
         const user = await UserAlumno.findById(idUsuario).populate('clases')
@@ -87,7 +83,8 @@ const findNotifyClassByUser = async (req, res) => {
             }
         })
 
-        const clasesProcesada = await Promise.all(finalClases)
+        let clasesProcesada = await Promise.all(finalClases)
+        clasesProcesada = clasesProcesada.filter( e => e != null);
         
         res.status(200).json({result: clasesProcesada})
 
@@ -130,7 +127,20 @@ const claseAceptada = async (req, res) => {
         profesoresController.profesorNotificar(clase.profesor)
         clase.notificada = true;
         await clase.save()
-        res.status(200).json({result: clase.notificada})
+        const myProfesor = await UserProfesor.findById(clase.profesor).populate('clases')
+        let clases = myProfesor.clases.map( async (e) => {
+            return{
+                alumno: e.alumno,
+                profesor: e.profesor,
+                materia: e.materia,
+                zona: e.zona,
+                notificada: e.notificada,
+                horario: e.horario
+            }
+        })
+        clases = await Promise.all(clases);
+        clases = clases.filter(e => e.notificada != true);
+        res.status(200).json({result: clases});
     } else {
         res.status(404).json({error: 'id de clase no encontrado'})
     }
