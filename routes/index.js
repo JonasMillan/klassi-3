@@ -26,8 +26,6 @@ api.post("/profesor/addhoras", profesoresController.addSimpleHora);
 api.post("/profesor/removeHora", profesoresController.removeHora);
 api.post("/profesor/generarMateria", profesoresController.generarMateriaProfesor);
 
-
-
 // /* Clases ROUTES */
 api.post("/clase", claseController.createClass)
 api.post("/removeClase", claseController.removeClass)

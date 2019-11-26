@@ -19,136 +19,143 @@ const seeds = async () => {
         const Primario = new Escolaridad({nivel:'Primario'})
         const Secundario = new Escolaridad({nivel:'Secundario'})
         const Terciario = new Escolaridad({nivel:'Terciario'})
-        const Universitario = new Escolaridad({nivel:'Universitario'})
-        const arrEsco = [Primario,Secundario,Terciario,Universitario]
+        const arrEsco = [Primario,Secundario,Terciario]
         
         const MatematicaPrimaria = new Materia({nombre:'Matematica', escolaridad: Primario._id})
         const MatematicaSecundario = new Materia({nombre:'Matematica', escolaridad: Secundario._id})
         const MatematicaTerciario = new Materia({nombre:'Matematica', escolaridad: Terciario._id})
-        const MatematicaUniversitario = new Materia({nombre:'Matematica', escolaridad: Universitario._id})
         const FisicaPrimaria = new Materia({nombre:'Fisica', escolaridad: Primario._id})
         const FisicaSecundario = new Materia({nombre:'Fisica', escolaridad: Secundario._id})
         const FisicaTerciario = new Materia({nombre:'Fisica', escolaridad: Terciario._id})
-        const FisicaUniversitario = new Materia({nombre:'Fisica', escolaridad: Universitario._id})
         const LiteraturaPrimaria = new Materia({nombre:'Literatura', escolaridad: Primario._id})
         const LiteraturaSecundario = new Materia({nombre:'Literatura', escolaridad: Secundario._id})
         const LiteraturaTerciario = new Materia({nombre:'Literatura', escolaridad: Terciario._id})
-        const LiteraturaUniversitario = new Materia({nombre:'Literatura', escolaridad: Universitario._id})
         const QuimicaPrimaria = new Materia({nombre:'Quimica', escolaridad: Primario._id})
         const QuimicaSecundario = new Materia({nombre:'Quimica', escolaridad: Secundario._id})
         const QuimicaTerciario = new Materia({nombre:'Quimica', escolaridad: Terciario._id})
-        const QuimicaUniversitario = new Materia({nombre:'Quimica', escolaridad: Universitario._id})
         const seedsMaterias = [
             MatematicaPrimaria,
             MatematicaSecundario,
             MatematicaTerciario,
-            MatematicaUniversitario,
             FisicaPrimaria,
             FisicaSecundario,
             FisicaTerciario,
-            FisicaUniversitario,
             LiteraturaPrimaria,
             LiteraturaSecundario,
             LiteraturaTerciario,
-            LiteraturaUniversitario,
             QuimicaPrimaria,
             QuimicaSecundario,
             QuimicaTerciario,
-            QuimicaUniversitario,
         ]
-        
-        const pancaracio = new User({
+
+        const felipe = new User({
             rol: 'Profesor',
-            nombre: 'Pancracio',
-            apellido: 'Pancrastico',
-            email: 'machoalfa@gmail.com',
+            nombre: 'Felipe',
+            apellido: 'williams',
+            email: 'felipe@gmail.com',
             password: '123',
-            descripcion: 'esto es una descripcion bastante descriptiva...',
+            descripcion: 'Tengo 10 años de experiencia en escuela primaria, secundaria y terciaria',
             premiun: false,
             notificar: false,
-            horas:[],
+            horas:["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"],
             clases: [],
-            zonas: [Belgrano._id],
-            materias: [MatematicaPrimaria._id, FisicaPrimaria._id, LiteraturaPrimaria._id, QuimicaPrimaria._id],
+            zonas: [Belgrano._id, Saavedra._id, Palermo._id, Colegiales._id],
+            materias: [MatematicaPrimaria._id, FisicaPrimaria._id, LiteraturaPrimaria._id, QuimicaPrimaria._id, MatematicaSecundario._id, FisicaSecundario._id, LiteraturaSecundario._id, QuimicaSecundario._id, MatematicaTerciario._id, FisicaTerciario._id, LiteraturaTerciario._id, QuimicaTerciario._id],
+            horarios: []    
+        })
+
+        const pancaracio = new User({
+            rol: 'Profesor',
+            nombre: 'Luis',
+            apellido: 'Gutierrez',
+            email: 'luis@gmail.com',
+            password: '123',
+            descripcion: 'Soy un profesor con 8 años de experiencia',
+            premiun: false,
+            notificar: false,
+            horas:["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"],
+            clases: [],
+            zonas: [Belgrano._id, Saavedra._id],
+            materias: [MatematicaPrimaria._id, FisicaPrimaria._id, LiteraturaPrimaria._id, QuimicaPrimaria._id, MatematicaSecundario._id, FisicaSecundario._id, LiteraturaSecundario._id, QuimicaSecundario._id],
             horarios: []    
         })
         const Mora = new User({
             rol: 'Profesor',
             nombre: 'Mora',
-            apellido: 'Profe',
+            apellido: 'Suarez',
             email: 'mora@gmail.com',
             password: '123',
-            descripcion: 'esto es una descripcion bastante descriptiva...',
+            descripcion: 'Hice una licensiatura para profesora de primaria',
             premiun: false,
             notificar: false,
-            horas:[],
+            horas:["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"],
             clases: [],
-            zonas: [Palermo._id],
-            materias: [MatematicaSecundario._id, FisicaSecundario._id, LiteraturaSecundario._id, QuimicaSecundario._id],
+            zonas: [Palermo._id, Colegiales._id],
+            materias: [MatematicaPrimaria._id, FisicaPrimaria._id, LiteraturaPrimaria._id, QuimicaPrimaria._id, MatematicaTerciario._id, FisicaTerciario._id, LiteraturaTerciario._id, QuimicaTerciario._id],
             horarios: []     
         })
         const Jonas = new User({
             rol: 'Profesor',
             nombre: 'Jonas',
-            apellido: 'Profe',
+            apellido: 'Sanchez',
             email: 'jonas@gmail.com',
             password: '123',
-            descripcion: 'esto es una descripcion bastante descriptiva...',
+            descripcion: 'Estoy terminando mi carrera de profesorado de letras',
             premiun: false,
             notificar: false,
-            horas:[],
+            horas:["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"],
             clases: [],
-            zonas: [Palermo._id],
+            zonas: [Palermo._id, Belgrano._id],
             materias: [MatematicaSecundario._id, FisicaSecundario._id, LiteraturaSecundario._id, QuimicaSecundario._id],
             horarios: []     
         })
         const Jor = new User({
             rol: 'Profesor',
-            nombre: 'Jor',
-            apellido: 'Profe',
-            email: 'jor@gmail.com',
+            nombre: 'Jorge',
+            apellido: 'Gutierrez',
+            email: 'jorge@gmail.com',
             password: '123',
             descripcion: 'esto es una descripcion bastante descriptiva...',
             premiun: false,
             notificar: false,
-            horas:[],
+            horas:["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"],
             clases: [],
-            zonas: [Palermo._id],
-            materias: [MatematicaSecundario._id, FisicaSecundario._id, LiteraturaSecundario._id, QuimicaSecundario._id],
+            zonas: [Palermo._id, Colegiales._id],
+            materias: [MatematicaSecundario._id, FisicaSecundario._id, LiteraturaSecundario._id, QuimicaSecundario._id, MatematicaPrimaria._id, FisicaPrimaria._id, LiteraturaPrimaria._id, QuimicaPrimaria._id],
             horarios: []     
         })
         const Santi = new User({
             rol: 'Profesor',
-            nombre: 'Santi',
+            nombre: 'Santiago',
             apellido: 'Pueihgyredon',
             email: 'santi@gmail.com',
             password: '123',
             descripcion: 'esto es una descripcion bastante descriptiva...',
             premiun: false,
             notificar: false,
-            horas:[],
+            horas:["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"],
             clases: [],
-            zonas: [Colegiales._id],
+            zonas: [Colegiales._id, Saavedra._id],
             materias: [MatematicaTerciario._id, FisicaTerciario._id, LiteraturaTerciario._id, QuimicaTerciario._id],
             horarios: []     
         })
         const Lau = new User({
             rol: 'Profesor',
             nombre: 'Lautaro',
-            apellido: 'tebanque',
+            apellido: 'Penia',
             email: 'lautaro@gmail.com',
             password: '123',
-            descripcion: 'esto es una descripcion bastante descriptiva...',
+            descripcion: 'Doy clases relajadas, con tiempos de distercion',
             premiun: false,
             notificar: false,
-            horas:[],
+            horas:["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"],
             clases: [],
-            zonas: [Colegiales._id],
-            materias: [MatematicaUniversitario._id, FisicaUniversitario._id, LiteraturaUniversitario._id, QuimicaUniversitario._id],
+            zonas: [Colegiales._id, Belgrano._id],
+            materias: [MatematicaTerciario._id, FisicaTerciario._id, LiteraturaTerciario._id, QuimicaTerciario._id, MatematicaSecundario._id, FisicaSecundario._id, LiteraturaSecundario._id, QuimicaSecundario._id], 
             horarios: []     
         })
 
-        const profes = [pancaracio,Mora,Santi,Lau,Jonas,Jor]
+        const profes = [pancaracio,Mora,Santi,Lau,Jonas,Jor,felipe]
 
         const allSeeds = [...arrEsco,...seedsMaterias, ...arrZonas, ...profes]
         allSeeds.map(e => e.save())
