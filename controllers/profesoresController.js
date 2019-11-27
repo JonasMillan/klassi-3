@@ -257,7 +257,7 @@ const goPremiun = async (req, res) => {
 const addZona = async (req, res) => {
     const {zona, idProfesor} = req.body
     const zonaFound = await Zona.find({nombre:zona})
-    const profe = await Profesor.findById(idProfesor)
+    const profe = await Profesor.findById(idProfesor).populate('zonas')
 
     if(zonaFound.length > 0){
         const zonaProfe = profe.zonas.find(e => e.nombre === zonaFound[0].nombre)
@@ -280,7 +280,8 @@ const addZona = async (req, res) => {
 const removeMateria = async (req, res) => {
     const {idMateria, idProfesor} = req.body
     const profe = await Profesor.findById(idProfesor).populate('materias')
-    profe.materias.filter(e => e._id.toString() != idMateria)
+    const materiasUpdate = profe.materias.filter(e => e._id.toString() != idMateria)
+    profe.materias = materiasUpdate
     await profe.save()
     res.status(200).json({result: profe.materias})
 }
