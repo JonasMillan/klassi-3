@@ -277,7 +277,16 @@ const addZona = async (req, res) => {
     }
 }
 
+const removeMateria = async (req, res) => {
+    const {idMateria, idProfesor} = req.body
+    const profe = await Profesor.findById(idProfesor).populate('materias')
+    profe.materias.filter(e => e._id.toString() != idMateria)
+    await profe.save()
+    res.status(200).json({result: profe.materias})
+}
+
 module.exports = {
+    removeMateria,
     addZona,
     goPremiun,
     formatProfesor,
